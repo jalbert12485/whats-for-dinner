@@ -4,11 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+
+    <!-- Compressed CSS Bulma, documentation at https://bulma.io/documentation/-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Our css -->
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
     
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="https://bulma.io">
+            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+          </a>
+      
+          <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+      
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item">
+              Home
+            </a>
+      
+            <a class="navbar-item">
+              Documentation
+            </a>
+      
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">
+                More
+              </a>
+      
+              <div class="navbar-dropdown">
+                <a class="navbar-item">
+                  About
+                </a>
+                <a class="navbar-item">
+                  Jobs
+                </a>
+                <a class="navbar-item">
+                  Contact
+                </a>
+                <hr class="navbar-divider">
+                <a class="navbar-item">
+                  Report an issue
+                </a>
+              </div>
+            </div>
+          </div>
+      
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-primary">
+                  <strong>Sign up</strong>
+                </a>
+                <a class="button is-light">
+                  Log in
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
 
+
+
+    <div class="columns" id="company-info">
+        <div class="column is-one-fifth"></div>
+        <div class="column"><figure class="image is-128x128" id="logo">
+            <img src="https://bulma.io/images/placeholders/128x128.png">
+          </figure></div>
+        <div class="column is-one-fifth"></div>
+      </div>
+
+      
+        <!--Columns containing product headings.  -->
+    <div class="columns">
+        <div class="column">
+            <h1> Products </h1>
+            <!-- A card for holding product -->
+            <div class="card">
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-left">
+                      <figure class="image is-48x48">
+                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <p class="title is-4">Something</p>
+                    </div>
+                  </div>
+              
+                  <div class="content">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Phasellus nec iaculis mauris. <a>@bulmaio</a>.
+                    <a href="#">#css</a> <a href="#">#responsive</a>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div class="column">
+            <h1> More Products </h1>
+        </div>
+        <div class="column">
+            <h1> Even More </h1>
+        </div>
+    </div>
+
+    <!-- Our script -->
     <script src="script.js"></script>
 </body>
 </html>
