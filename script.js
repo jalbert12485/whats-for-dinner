@@ -1,3 +1,6 @@
+
+
+
 $("#drinkCard").on("click",function(e){
     e.preventDefault();
     $("#myModal").addClass("is-active");
