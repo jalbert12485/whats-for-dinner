@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meal Recommendations</title>
 
-
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
     <!-- Compressed CSS Bulma, documentation at https://bulma.io/documentation/-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <!-- Our css -->
@@ -18,15 +19,15 @@
     
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-          <p class="navbar-item">
-            <img src="" alt="Logo">Food Recommendation
+          <p class="navbar-item" id="company-name">
+            <img src="" alt="Logo">What's for dinner?
           </p>
         </div>
       
         <div id="navbarBasicExample" class="navbar-brand navbar-end">
        
             <a class="navbar-item" href="index.html">
-              Home
+              <strong>Home</strong>
             </a>
             <a class="navbar-item" href="food.html">
               Food
@@ -54,13 +55,14 @@
         <!--Columns containing product headings.  -->
     <div id="suggested">
           <h1>Suggested Meal and Drink Recipes</h1>
+          <p> Not sure what you want to eat or drink?  Check out the meal and drink recipes we have below.  If you'd like to get a more personalized recommendation, you can input preferences based on whether you <a href="food.html">hungry</a> or <a href="drink.html">thirsty</a>.</p>
  
     <div class="columns">
 
         <div class="column">
             <h2> Food Recipes </h2>
             <!-- A card for holding product -->
-            <div class="card" id="foodCard">
+            <div class="card modal-on" id="foodCard">
                 <div class="card-image" >
                   <figure class="image is-4by3">
                     <img id="foodImg" src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
@@ -89,7 +91,7 @@
               <div class="columns">
                 <div class="column"></div>
                 <div class="column">
-                <button class="button is-centered is-link is-rounded" >Change Preferences</button>
+                  <button class="button is-centered is-link is-rounded" ><a href="food.html" class="white-text">Change Preferences</a></button>
                 </div>
                 <div class="column"></div>
             </div>
@@ -98,7 +100,7 @@
         <div class="column">
             <h2> Drink Recipes</h2>
             <!-- Drink Card -->
-            <div class="card">
+            <div class="card modal-on">
               <div class="card-image">
                 <!-- Need picture from API of suggested drink -->
                 <figure class="image is-4by3">
@@ -129,7 +131,7 @@
             <div class="columns">
               <div class="column"></div>
               <div class="column">
-              <button class="button is-centered is-link is-rounded" >Change Preferences</button>
+                <button class="button is-centered is-link is-rounded" ><a href="drink.html" class="white-text">Change Preferences</a></button>
               </div>
               <div class="column"></div>
           </div>
@@ -146,13 +148,13 @@
       <header class="modal-card-head">
         <!-- Recipe Name -->
         <p class="modal-card-title">Modal title</p>
-        <button class="delete" id="modalx" aria-label="close"></button>
+        <button class="delete modal-off" aria-label="close"></button>
       </header>
       <section class="modal-card-body">
         <!-- Should include recipe ... -->
       </section>
       <footer class="modal-card-foot">
-        <button class="button" id="modalCancel">Close</button>
+        <button class="button modal-off" id="modalCancel">Close</button>
       </footer>
     </div>
   </div>

@@ -1,4 +1,10 @@
-#company-info{
+#company-name{
+font-family: 'Dancing Script', cursive;
+font-size: xx-large;
+font-weight: bold;
+}
+
+#company-info, #suggested{
     background-color: lightskyblue;
     padding: 15px;
 }
@@ -19,10 +25,6 @@ h2{
     font-size: x-large;
 }
 
-#suggested{
-    background-color:  lightskyblue;
-    padding: 15px;
-}
 
 button{
     margin: 20px 0 10px 0;
@@ -38,4 +40,8 @@ button{
     right: 3px;
     color: white;
     font-size: large;
+}
+
+.white-text{
+    color: white;
 }

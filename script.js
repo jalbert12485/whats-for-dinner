@@ -1,36 +1,13 @@
-
-
-
-$("#drinkCard").on("click",function(e){
+function turnOnModal(e){
     e.preventDefault();
     $("#myModal").addClass("is-active");
+}
 
-});
-
-$("#drinkImg").on("click",function(e){
+function turnOffModal(e){
     e.preventDefault();
-    $("#myModal").addClass("is-active");
+    $("#myModal").removeClass("is-active");
+}
 
-});
 
-$("#foodCard").on("click",function(e){
-    e.preventDefault();
-    $("#myModal").addClass("is-active");
-
-});
-
-$("#foodImg").on("click",function(e){
-    e.preventDefault();
-    $("#myModal").addClass("is-active");
-
-});
-
-$("#modalx").on("click",function(e){
-    e.preventDefault();
-    $('#myModal').removeClass("is-active");
-})
-
-$("#modalCancel").on("click",function(e){
-    e.preventDefault();
-    $('#myModal').removeClass("is-active");
-})
+$(document).on("click",".modal-on",turnOnModal);
+$(document).on("click",".modal-off",turnOffModal);
