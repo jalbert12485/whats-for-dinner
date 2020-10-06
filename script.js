@@ -39,11 +39,26 @@ function randomMeal(){
           $("#food-img").attr("src",response.meals[0].strMealThumb); 
           $("#food-thumb").attr("src",response.meals[0].strMealThumb); 
           $("#food-title").text(response.meals[0].strMeal);
-          $("#food-content").text(response.meals[0].strInstructions);
-      });
- 
-
-     
+        //   $("#food-content").text(response.meals[0].strInstructions);
+      });    
 }
 
 randomMeal();
+
+function randomDrink(){
+    var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/random.php";
+
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    })
+      .then(function(response) {
+        console.log(response.drinks[0].strDrinkThumb);
+        $("#drink-img").attr("src",response.drinks[0].strDrinkThumb); 
+        $("#drink-thumb").attr("src",response.drinks[0].strDrinkThumb); 
+        $("#drink-name").text(response.drinks[0].strDrink);
+        //   $("#food-content").text(response.meals[0].strInstructions);
+      });    
+}
+
+randomDrink();
