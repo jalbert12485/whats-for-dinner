@@ -38,7 +38,8 @@ function randomMeal(){
         console.log(response.meals[0]);
           $("#food-img").attr("src",response.meals[0].strMealThumb); 
           $("#food-thumb").attr("src",response.meals[0].strMealThumb); 
-          $("food-title").text(response.meals[0].strMeal);
+          $("#food-title").text(response.meals[0].strMeal);
+          $("#food-content").text(response.meals[0].strInstructions);
       });
  
 
