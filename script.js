@@ -11,3 +11,36 @@ function turnOffModal(e){
 
 $(document).on("click",".modal-on",turnOnModal);
 $(document).on("click",".modal-off",turnOffModal);
+
+function searchFoodRecipe(){
+    var search="chicken";
+    var queryURL = "https://www.themealdb.com/api/json/v1/1/search.php?s="+search;
+
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    })
+      .then(function(response) {
+          console.log(response);
+      });
+}
+
+
+
+function randomMeal(){
+    var queryURL = "https://www.themealdb.com/api/json/v1/1/random.php";
+
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    })
+      .then(function(response) {
+        console.log(response.meals[0].strMealThumb);
+          $("#food-img").attr("src",response.meals[0].strMealThumb); 
+      });
+ 
+
+     
+}
+
+randomMeal();
