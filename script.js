@@ -35,8 +35,10 @@ function randomMeal(){
       method: "GET"
     })
       .then(function(response) {
-        console.log(response.meals[0].strMealThumb);
+        console.log(response.meals[0]);
           $("#food-img").attr("src",response.meals[0].strMealThumb); 
+          $("#food-thumb").attr("src",response.meals[0].strMealThumb); 
+          $("food-title").text(response.meals[0].strMeal);
       });
  
 
