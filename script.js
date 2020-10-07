@@ -23,19 +23,7 @@ function turnOffModal(e){
 $(document).on("click",".modal-on",turnOnModal);
 $(document).on("click",".modal-off",turnOffModal);
 
-// A food search function for reference
-// function searchFoodRecipe(){
-//     var search="chicken";
-//     var queryURL = "https://www.themealdb.com/api/json/v1/1/search.php?s="+search;
 
-//     $.ajax({
-//       url: queryURL,
-//       method: "GET"
-//     })
-//       .then(function(response) {
-//           console.log(response);
-//       });
-// }
 
 
 // Pulls a random meal and displays on the meal card in the home page and on the food page.
@@ -98,6 +86,7 @@ function saveFavoriteFood(option) {
 
 $("#view-fav-food").on("click", viewFavoriteFood);
 
+//Opens the modal and displayed your saved favorite recipes.
 function viewFavoriteFood(){
   $("#modal-title").text("Favorite Food Recipes");
   $("#modal-body").empty();
@@ -122,6 +111,7 @@ function viewFavoriteFood(){
   $("#modal-body").append(newUl);
 }
 
+//In the modal containing favorite recipes, allows the remove button to remove items from your favorites.
 $("#my-modal").on("click",function (event){
   var removeInd=event.target.dataset.remove;
   if(removeInd != null)
