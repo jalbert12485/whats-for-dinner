@@ -43,12 +43,12 @@
 
   
     <div id="company-info" class="columns" >
-      <div class="column is-two-thirds">
+      <div class="column">
         <div class="card">
           <div class="card-image">
             <!-- Need picture from API of suggested drink -->
-            <figure class="image is-16by9">
-              <img id="drinkImg"  src="https://bulma.io/images/placeholders/640x360.png" alt="Placeholder image">
+            <figure class="image is-4by3">
+              <img id="drink-img"  src="" alt="Placeholder image">
             </figure>
           </div>
           <!-- Fill in information about drink. -->
@@ -56,11 +56,11 @@
             <div class="media">
               <div class="media-left">
                 <figure class="image is-48x48" >
-                  <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                  <img src="" id="drink-thumb" alt="Placeholder image">
                 </figure>
               </div>
                 <div class="media-content">
-                  <p class="title is-4">Drink Name</p>
+                  <p class="title is-4" id="drink-name">Drink Name</p>
                 </div>
             </div>
           </div>
@@ -70,39 +70,26 @@
         </div>
       </div>
 
-        <div class="column is-one-third">
-          <div class="field has-addons">
+        <div class="column">
+          <div class="field">
             <label class="label">Looking for something specific?</label>
-            <div class="columns">
-              <div class="control column is-two-thirds">
-                <input class="input" type="text" placeholder="Find a repository">
+              <div class="control">
+                <input class="input" type="text" placeholder="Search">
+              </div> 
+              <div class="control">
+                <button class="button is-link" type="submit">Submit</button>
               </div>
-              <div class="control column is-one-third">
-                <button class="button is-info">
-                  Search
-                </button>
-              </div>
-            </div>
           </div>
-        <div class="field">
-          <label class="label">Looking for something specific?</label>
-            <div class="columns">
-              <div class="control column is-two-thirds">
-                <input class="input" type="text" placeholder="search">
-              </div>
-              <div class="control column is-one-third">
-                <button class="button is-primary white-text">Search</button>
-              </div>
-            </div>
-        </div>
         
         <div class="field">
-          <label class="label">Email</label>
+          <label class="label">Want a specific ingrediant?</label>
           <div class="control">
-            <input class="input" type="email" placeholder="e.g. alexsmith@gmail.com">
+            <input class="input" type="email" placeholder="Ingrediant">
+          </div>
+          <div class="control">
+            <button class="button is-link" type="submit">Submit</button>
           </div>
         </div>
-
         </div>    
       </div>
    

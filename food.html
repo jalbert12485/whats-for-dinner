@@ -42,12 +42,13 @@
 
 
 
-    <div id="company-info">
+    <div id="company-info" class="columns">
+      <div class="column is-two-thirds">
       <div class="card">
         <div class="card-image">
           <!-- Need picture from API of suggested food -->
-          <figure class="image is-16by9">
-            <img id="foodImg"  src="https://bulma.io/images/placeholders/640x360.png" alt="Placeholder image">
+          <figure class="image is-4by3">
+            <img id="food-img"  src="https://bulma.io/images/placeholders/640x360.png" alt="Placeholder image">
           </figure>
         </div>
         <!-- Fill in information about food. -->
@@ -55,55 +56,43 @@
           <div class="media">
             <div class="media-left">
               <figure class="image is-48x48" >
-                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                <img src="https://bulma.io/images/placeholders/96x96.png" id="food-thumb" alt="Placeholder image">
               </figure>
             </div>
             <div class="media-content">
-              <p class="title is-4">Food Name</p>
+              <p class="title is-4" id="food-title">Food Name</p>
             </div>
           </div>
       
           <div class="content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-            <a href="#">#css</a> <a href="#">#responsive</a>
+            Click here to get instructions on how to make this delicious meal.
           </div>
         </div>
       </div>
-      <div class="columns">
-        <div class="column">
-          <div class="columns is-mobile">
-            <div class="column">
-                <button class="button is-link"> Food Options </button>
-            </div>
-            <div class="column">
-                <button class="button is-link"> More Options </button>
-            </div>
-          </div>
-        </div>
+    </div>
 
-        <div class="column">
-          <div class="columns is-mobile">
-            <div class="column">
-                <button class="button is-link"> Food Options </button>
+      <div class="column is-one-third">
+        <div class="field">
+          <label class="label">Looking for something specific?</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Search">
+            </div> 
+            <div class="control">
+              <button class="button is-link" type="submit">Submit</button>
             </div>
-            <div class="column">
-                <button class="button is-link"> More Options </button>
-            </div>
-          </div>
         </div>
-
-        <div class="column">
-          <div class="columns is-mobile">
-            <div class="column">
-                <button class="button is-link"> Food Options </button>
-            </div>
-            <div class="column">
-                <button class="button is-link"> More Options </button>
-            </div>
-          </div>
+      
+      <div class="field">
+        <label class="label">Want a specific ingrediant?</label>
+        <div class="control">
+          <input class="input" type="email" placeholder="Ingrediant">
+        </div>
+        <div class="control">
+          <button class="button is-link" type="submit">Submit</button>
         </div>
       </div>
+      </div> 
+
     </div>
 
 
