@@ -13,7 +13,7 @@ $(document).on("click",".modal-on",turnOnModal);
 $(document).on("click",".modal-off",turnOffModal);
 
 function searchFoodRecipe(){
-    var search="chicken";
+    var search="";
     var queryURL = "https://www.themealdb.com/api/json/v1/1/search.php?s="+search;
 
     $.ajax({
