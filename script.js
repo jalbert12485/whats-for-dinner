@@ -54,6 +54,14 @@ function displayFoodCard(){
   $("#food-thumb").attr("src",currentFood.strMealThumb); 
   $("#food-title").text(currentFood.strMeal);
   $("#food-title").attr("data-number",currentFood.idMeal);
+  console.log(isSavedFood());
+  if(isSavedFood()){
+    $("#food-heart-empty").attr("style","display: none");
+    $("#food-heart-full").attr("style", "display: block");
+  } else {
+    $("#food-heart-empty").attr("style","display: block");
+    $("#food-heart-full").attr("style", "display: none");
+  }
 }
 
 randomMeal();
@@ -78,6 +86,13 @@ function displayDrinkCard(){
   $("#drink-thumb").attr("src",currentDrink.strDrinkThumb); 
   $("#drink-name").text(currentDrink.strDrink);
   $("#drink-name").attr("data-number",currentDrink.idDrink);
+  if(isSavedDrink()){
+    $("#drink-heart-empty").attr("style","display: none");
+    $("#drink-heart-full").attr("style", "display: block");
+  }else{
+    $("#drink-heart-empty").attr("style","display: block");
+    $("#drink-heart-full").attr("style", "display: none");
+  }
 }
 
 randomDrink();
@@ -90,34 +105,81 @@ $("#save-drink").on("click",saveFavoriteDrink);
 function saveFavoriteFood() {
   var favoriteID=Number($("#food-title").data("number"));
   var favoriteName=$("#food-title").text();
-  var favoriteFood=currentFood;
   var isSaved=false;
+  var index=-1;
+
   for(var i=0; i<favoriteFoods.length; i++){
     if(favoriteFoods[i][0]==favoriteID){
       isSaved=true;
+      index=i;
     }
   }
-
+  if(isSaved){
+    favoriteFoods.splice(index,1);
+    localStorage.setItem("favoriteFoods",JSON.stringify(favoriteFoods));
+    $("#food-heart-empty").attr("style","display: block");
+    $("#food-heart-full").attr("style","display: none");
+  }
   if(!(isSaved)){
   favoriteFoods.push([favoriteID,favoriteName,currentFood]);
   localStorage.setItem("favoriteFoods",JSON.stringify(favoriteFoods));
-  }
+  $("#food-heart-empty").attr("style","display: none");
+  $("#food-heart-full").attr("style","display: block");
+
+  } 
 }
+
+function isSavedFood(){
+  var favoriteID=currentFood.idMeal;
+
+  for(var i=0; i<favoriteFoods.length; i++){
+    if(favoriteFoods[i][0]==favoriteID){
+      return true;
+    }
+  }
+  return false;
+}
+
+
+function isSavedDrink(){
+  var favoriteID=currentDrink.idDrink;
+
+  for(var i=0; i<favoriteDrinks.length; i++){
+    if(favoriteDrinks[i][0]==favoriteID){
+      return true;
+    }
+  }
+  return false;
+}
+
+
 
 function saveFavoriteDrink() {
   var favoriteID=Number($("#drink-name").data("number"));
   var favoriteName=$("#drink-name").text();
   var favoriteDrink=currentDrink;
   var isSaved=false;
+  var index=-1;
+
+  
   for(var i=0; i<favoriteDrinks.length; i++){
     if(favoriteDrinks[i][0]==favoriteID){
       isSaved=true;
+      index=i;
     }
   }
+  if(isSaved){
+    favoriteDrinks.splice(index,1);
+    localStorage.setItem("favoriteDrinks",JSON.stringify(favoriteDrinks));
+    $("#drink-heart-empty").attr("style","display: block");
+    $("#drink-heart-full").attr("style", "display: none");
 
+  }
   if(!(isSaved)){
   favoriteDrinks.push([favoriteID,favoriteName,favoriteDrink]);
   localStorage.setItem("favoriteDrinks",JSON.stringify(favoriteDrinks));
+  $("#drink-heart-empty").attr("style","display: none");
+  $("#drink-heart-full").attr("style", "display: block");
   }
 }
 
@@ -440,3 +502,6 @@ function searchByDrinkIng(){
         displayDrinkCard();
     }); 
 }
+
+$("#drink-arrow").on("click",randomDrink);
+$("#food-arrow").on("click",randomMeal);
