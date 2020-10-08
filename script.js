@@ -339,3 +339,104 @@ for(var j=0; j < 2; j++){
 }
 
 
+// Search Bars
+$("#name-food-search-submit").on("click",function(e){
+  e.preventDefault;  
+  searchByFoodName();
+});
+$("#ingredient-food-search-submit").on("click",function(e){
+  e.preventDefault;
+  searchByFoodIng();
+});
+$("#origin-food-search-submit").on("click",function(e){
+  e.preventDefault;
+  searchByFoodOrigin();
+});
+$("#name-drink-search-submit").on("click",function(e){
+  e.preventDefault;
+  searchByDrinkName();
+});
+$("#ingredient-drink-search-submit").on("click",function(e){
+  e.preventDefault;
+  searchByDrinkIng();
+});
+
+function searchByFoodName(){
+  var foodName=$("#name-food-search-input").val();
+  var queryURL = "https://www.themealdb.com/api/json/v1/1/search.php?s="+foodName;
+
+
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  })
+    .then(function(response) {
+      var number=Math.floor(Math.random()*response.meals.length);
+      currentFood=response.meals[number];
+      displayFoodCard();
+    }); 
+}
+
+function searchByFoodIng(){
+  var foodIng=$("#ingredient-food-search-input").val();
+  var queryURL = "https://www.themealdb.com/api/json/v1/1/filter.php?i="+foodIng;
+
+
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  })
+    .then(function(response) {
+      var number=Math.floor(Math.random()*response.meals.length);
+        currentFood=response.meals[number];
+        displayFoodCard();
+    }); 
+}
+
+function searchByFoodOrigin(){
+  var foodOrigin=$("#origin-food-search-input").val();
+  var queryURL = "https://www.themealdb.com/api/json/v1/1/filter.php?a="+foodOrigin;
+
+
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  })
+    .then(function(response) {
+        var number=Math.floor(Math.random()*response.meals.length);
+        currentFood=response.meals[number];
+        displayFoodCard();
+    }); 
+}
+
+function searchByDrinkName(){
+  var drinkName=$("#name-drink-search-input").val();
+  var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s="+drinkName;
+
+
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  })
+    .then(function(response) {
+      var number=Math.floor(Math.random()*response.drinks.length);
+        currentDrink=response.drinks[number];
+        displayDrinkCard();
+    }); 
+}
+
+function searchByDrinkIng(){
+  var drinkIng=$("#ingredient-drink-search-input").val();
+  var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i="+drinkIng;
+
+
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  })
+    .then(function(response) {
+      var number=Math.floor(Math.random()*response.drinks.length);
+        currentDrink=response.drinks[number];
+        displayDrinkCard();
+    }); 
+}
