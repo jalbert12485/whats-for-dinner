@@ -44,7 +44,7 @@
 
     <div id="company-info" class="columns">
       <div class="column is-two-thirds">
-      <div class="card">
+      <div class="card modal-on" id="food-card">
         <div class="card-image">
           <!-- Need picture from API of suggested food -->
           <figure class="image is-4by3">
@@ -64,7 +64,7 @@
             </div>
           </div>
       
-          <div class="content">
+          <div class="content" id="food-content">
             Click here to get instructions on how to make this delicious meal.
           </div>
         </div>
@@ -72,10 +72,20 @@
     </div>
 
       <div class="column is-one-third">
+        <label class="label">Love this dish or want to see others you've loved?</label>
+        <div class="columns">
+        <div class="column has-text-centered">
+          <button class="button is-centered is-link is-rounded" id="save-food">Favorite</button>
+        </div>
+        <div class="column has-text-centered">
+          <button class="button is-centered is-link is-rounded modal-on " id="view-fav-food">View favorites</button>
+        </div>
+      </div>
+
         <div class="field">
           <label class="label">Looking for something specific?</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Search">
+              <input class="input" type="text" placeholder="Search by dish name">
             </div> 
             <div class="control">
               <button class="button is-link" type="submit">Submit</button>
@@ -83,17 +93,49 @@
         </div>
       
       <div class="field">
-        <label class="label">Want a specific ingrediant?</label>
+        <label class="label">Want something special in your meal?</label>
         <div class="control">
-          <input class="input" type="email" placeholder="Ingrediant">
+          <input class="input" type="email" placeholder="Search by ingrediant">
         </div>
         <div class="control">
           <button class="button is-link" type="submit">Submit</button>
         </div>
       </div>
+
+      <div class="field">
+        <label class="label">Want a meal from a certain place?</label>
+        <div class="control">
+          <input class="input" type="email" placeholder="Search by dish origin">
+        </div>
+        <div class="control">
+          <button class="button is-link" type="submit">Submit</button>
+        </div>
+      </div>
+
+
+
       </div> 
 
     </div>
+
+
+     <!-- Modal, should pop up when click on recipe card.-->
+  <div class="modal" id="my-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <!-- Recipe Name -->
+        <p class="modal-card-title" id="modal-title">Modal title</p>
+        <button class="delete modal-off" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body" id="modal-body">
+        <!-- Should include recipe ... -->
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button modal-off" id="modalCancel">Close</button>
+      </footer>
+    </div>
+  </div>
 
 
     <!-- jQuery -->

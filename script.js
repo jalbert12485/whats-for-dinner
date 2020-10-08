@@ -12,6 +12,8 @@ if(favoriteDrinks===null){
   localStorage.setItem("favoriteDrinks",JSON.stringify(favoriteDrinks));
 }
 
+var currentFood;
+var currentDrink;
 
 
 // Function to turn on modal which will display recipes
@@ -42,12 +44,16 @@ function randomMeal(){
       method: "GET"
     })
       .then(function(response) {
-          $("#food-img").attr("src",response.meals[0].strMealThumb); 
-          $("#food-thumb").attr("src",response.meals[0].strMealThumb); 
-          $("#food-title").text(response.meals[0].strMeal);
-          $("#food-title").attr("data-number",response.meals[0].idMeal);
-
+          currentFood=response.meals[0];
+          displayFoodCard();
       });    
+}
+
+function displayFoodCard(){
+  $("#food-img").attr("src",currentFood.strMealThumb); 
+  $("#food-thumb").attr("src",currentFood.strMealThumb); 
+  $("#food-title").text(currentFood.strMeal);
+  $("#food-title").attr("data-number",currentFood.idMeal);
 }
 
 randomMeal();
@@ -61,11 +67,17 @@ function randomDrink(){
       method: "GET"
     })
       .then(function(response) {
-        $("#drink-img").attr("src",response.drinks[0].strDrinkThumb); 
-        $("#drink-thumb").attr("src",response.drinks[0].strDrinkThumb); 
-        $("#drink-name").text(response.drinks[0].strDrink);
-        $("#drink-name").attr("data-number",response.drinks[0].idDrink);
+
+        currentDrink=response.drinks[0];
+        displayDrinkCard();
       });    
+}
+
+function displayDrinkCard(){
+  $("#drink-img").attr("src",currentDrink.strDrinkThumb); 
+  $("#drink-thumb").attr("src",currentDrink.strDrinkThumb); 
+  $("#drink-name").text(currentDrink.strDrink);
+  $("#drink-name").attr("data-number",currentDrink.idDrink);
 }
 
 randomDrink();
@@ -78,6 +90,7 @@ $("#save-drink").on("click",saveFavoriteDrink);
 function saveFavoriteFood() {
   var favoriteID=Number($("#food-title").data("number"));
   var favoriteName=$("#food-title").text();
+  var favoriteFood=currentFood;
   var isSaved=false;
   for(var i=0; i<favoriteFoods.length; i++){
     if(favoriteFoods[i][0]==favoriteID){
@@ -86,7 +99,7 @@ function saveFavoriteFood() {
   }
 
   if(!(isSaved)){
-  favoriteFoods.push([favoriteID,favoriteName]);
+  favoriteFoods.push([favoriteID,favoriteName,currentFood]);
   localStorage.setItem("favoriteFoods",JSON.stringify(favoriteFoods));
   }
 }
@@ -94,6 +107,7 @@ function saveFavoriteFood() {
 function saveFavoriteDrink() {
   var favoriteID=Number($("#drink-name").data("number"));
   var favoriteName=$("#drink-name").text();
+  var favoriteDrink=currentDrink;
   var isSaved=false;
   for(var i=0; i<favoriteDrinks.length; i++){
     if(favoriteDrinks[i][0]==favoriteID){
@@ -102,7 +116,7 @@ function saveFavoriteDrink() {
   }
 
   if(!(isSaved)){
-  favoriteDrinks.push([favoriteID,favoriteName]);
+  favoriteDrinks.push([favoriteID,favoriteName,favoriteDrink]);
   localStorage.setItem("favoriteDrinks",JSON.stringify(favoriteDrinks));
   }
 }
@@ -125,7 +139,8 @@ function viewFavoriteFood(){
   newLi.addClass("columns is-vcentered")
   var newText=$("<h3>");
   newText.text(favoriteFoods[i][1]);
-  newText.addClass("column is-four-fifths is-tablet");
+  newText.addClass("column is-four-fifths is-tablet modal-off");
+  newText.attr("data-foodli",i);
   var removeButton=$("<button>");
   removeButton.text("Remove");
   removeButton.addClass("column is-one-fifth is-tablet");
@@ -149,7 +164,8 @@ function viewFavoriteDrink(){
   newLi.addClass("columns is-vcentered")
   var newText=$("<h3>");
   newText.text(favoriteDrinks[i][1]);
-  newText.addClass("column is-four-fifths is-tablet");
+  newText.addClass("column is-four-fifths is-tablet modal-off");
+  newText.attr("data-drinkli",i);
   var removeButton=$("<button>");
   removeButton.text("Remove");
   removeButton.addClass("column is-one-fifth is-tablet");
@@ -166,7 +182,8 @@ function viewFavoriteDrink(){
 $("#my-modal").on("click",function (event){
   var removeIndFood=event.target.dataset.removefood;
   var removeIndDrink=event.target.dataset.removedrink;
-  console.log(removeIndDrink);
+  var foodli=event.target.dataset.foodli;
+  var drinkli=event.target.dataset.drinkli;
   if(removeIndFood != null){
     favoriteFoods.splice(removeIndFood,1);
     localStorage.setItem("favoriteFoods",JSON.stringify(favoriteFoods));
@@ -177,7 +194,148 @@ $("#my-modal").on("click",function (event){
     localStorage.setItem("favoriteDrinks",JSON.stringify(favoriteDrinks));
     viewFavoriteDrink();
   }
+  if(foodli != null){
+    currentFood=favoriteFoods[foodli][2];
+    displayFoodCard();
+  }
+  if(drinkli != null){
+    currentDrink=favoriteDrinks[drinkli][2];
+    displayDrinkCard();
+  }
 
 
 });
+
+$("#food-img").on("click",displayFoodRecipe);
+$("#food-content").on("click",displayFoodRecipe);
     
+function displayFoodRecipe(){
+  $("#modal-title").empty();
+  $("#modal-body").empty();
+
+
+  var newDivCol=$("<div>");
+  newDivCol.addClass("columns is-mobile");
+
+
+  var newFigDiv=$("<div>");
+  newFigDiv.addClass("column is-one-fifth");
+  var newFigure=$("<figure>");
+  newFigure.addClass("image is-64x64");
+  var newImg=$("<img>");
+  newImg.attr("src",currentFood.strMealThumb);
+  
+
+  newFigure.append(newImg);
+  newFigDiv.append(newFigure);
+  newDivCol.append(newFigDiv);
+
+  var newTitle=$("<h1>");
+  newTitle.text(currentFood.strMeal);
+  newTitle.addClass("column");
+  newDivCol.append(newTitle);
+  
+
+  $("#modal-title").append(newDivCol);
+  
+  var ingredients=[currentFood.strIngredient1, currentFood.strIngredient2, currentFood.strIngredient3, currentFood.strIngredient4, currentFood.strIngredient5, currentFood.strIngredient6, currentFood.strIngredient7, currentFood.strIngredient8, currentFood.strIngredient9, currentFood.strIngredient10, currentFood.strIngredient11, currentFood.strIngredient12, currentFood.strIngredient13, currentFood.strIngredient14, currentFood.strIngredient15, currentFood.strIngredient16, currentFood.strIngredient17, currentFood.strIngredient18, currentFood.strIngredient19, currentFood.strIngredient20];
+  var measure=[currentFood.strMeasure1, currentFood.strMeasure2, currentFood.strMeasure3, currentFood.strMeasure4, currentFood.strMeasure5, currentFood.strMeasure6, currentFood.strMeasure7, currentFood.strMeasure8, currentFood.strMeasure9, currentFood.strMeasure10, currentFood.strMeasure11, currentFood.strMeasure12, currentFood.strMeasure13, currentFood.strMeasure14, currentFood.strMeasure15, currentFood.strMeasure16, currentFood.strMeasure17, currentFood.strMeasure18, currentFood.strMeasure19, currentFood.strMeasure20];
+
+
+  var newUl=$("<ul>");
+  newUl.text("Ingrediants");
+  newUl.addClass("columns");
+
+for(var j=0; j < 2; j++){
+  var newCol=$("<div>");
+  newCol.addClass("column is-mobile");
+
+
+  for(var i=0; i< 10; i++){ 
+    var newLi=$("<li>");
+    if(ingredients[10*j+i] != null && ingredients[10*j+i] != ""){
+    newLi.text(ingredients[10*j+i] + ": " +measure[10*j+i]);
+    newCol.append(newLi);
+    }
+
+  }
+
+  newUl.append(newCol);
+}
+
+  $("#modal-body").append(newUl);
+
+  var newPara=$("<p>");
+  newPara.text(currentFood.strInstructions);
+  $("#modal-body").append(newPara);
+
+
+}
+
+$("#drink-img").on("click",displayDrinkRecipe);
+$("#drink-content").on("click",displayDrinkRecipe);
+    
+function displayDrinkRecipe(){
+  $("#modal-title").empty();
+  $("#modal-body").empty();
+
+
+  var newDivCol=$("<div>");
+  newDivCol.addClass("columns is-mobile");
+
+
+  var newFigDiv=$("<div>");
+  newFigDiv.addClass("column is-one-fifth");
+  var newFigure=$("<figure>");
+  newFigure.addClass("image is-64x64");
+  var newImg=$("<img>");
+  newImg.attr("src",currentDrink.strDrinkThumb);
+  
+
+  newFigure.append(newImg);
+  newFigDiv.append(newFigure);
+  newDivCol.append(newFigDiv);
+
+  var newTitle=$("<h1>");
+  newTitle.text(currentDrink.strDrink);
+  newTitle.addClass("column");
+  newDivCol.append(newTitle);
+  
+
+  $("#modal-title").append(newDivCol);
+  
+  var ingredients=[currentDrink.strIngredient1, currentDrink.strIngredient2, currentDrink.strIngredient3, currentDrink.strIngredient4, currentDrink.strIngredient5, currentDrink.strIngredient6, currentDrink.strIngredient7, currentDrink.strIngredient8, currentDrink.strIngredient9, currentDrink.strIngredient10, currentDrink.strIngredient11, currentDrink.strIngredient12, currentDrink.strIngredient13, currentDrink.strIngredient14, currentDrink.strIngredient15, currentDrink.strIngredient16, currentDrink.strIngredient17, currentDrink.strIngredient18, currentDrink.strIngredient19, currentDrink.strIngredient20];
+  var measure=[currentDrink.strMeasure1, currentDrink.strMeasure2, currentDrink.strMeasure3, currentDrink.strMeasure4, currentDrink.strMeasure5, currentDrink.strMeasure6, currentDrink.strMeasure7, currentDrink.strMeasure8, currentDrink.strMeasure9, currentDrink.strMeasure10, currentDrink.strMeasure11, currentDrink.strMeasure12, currentDrink.strMeasure13, currentDrink.strMeasure14, currentDrink.strMeasure15, currentDrink.strMeasure16, currentDrink.strMeasure17, currentDrink.strMeasure18, currentDrink.strMeasure19, currentDrink.strMeasure20];
+
+
+  var newUl=$("<ul>");
+  newUl.text("Ingrediants");
+  newUl.addClass("columns");
+
+for(var j=0; j < 2; j++){
+  var newCol=$("<div>");
+  newCol.addClass("column is-mobile");
+
+
+  for(var i=0; i< 10; i++){ 
+    var newLi=$("<li>");
+    if(ingredients[10*j+i] != null && ingredients[10*j+i] != ""){
+    newLi.text(ingredients[10*j+i] + ": " +measure[10*j+i]);
+    newCol.append(newLi);
+    }
+
+  }
+
+  newUl.append(newCol);
+}
+
+  $("#modal-body").append(newUl);
+
+  var newPara=$("<p>");
+  newPara.text(currentDrink.strInstructions);
+  $("#modal-body").append(newPara);
+
+
+}
+
+

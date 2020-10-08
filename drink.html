@@ -44,11 +44,11 @@
   
     <div id="company-info" class="columns" >
       <div class="column is-two-thirds">
-        <div class="card">
+        <div class="card modal-on">
           <div class="card-image">
             <!-- Need picture from API of suggested drink -->
             <figure class="image is-4by3">
-              <img id="drink-img"  src="" alt="Placeholder image">
+              <img id="drink-img"  src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
             </figure>
           </div>
           <!-- Fill in information about drink. -->
@@ -56,7 +56,7 @@
             <div class="media">
               <div class="media-left">
                 <figure class="image is-48x48" >
-                  <img src="" id="drink-thumb" alt="Placeholder image">
+                  <img src="https://bulma.io/images/placeholders/96x96.png" id="drink-thumb" alt="Placeholder image">
                 </figure>
               </div>
                 <div class="media-content">
@@ -64,17 +64,27 @@
                 </div>
             </div>
           </div>
-            <div class="content">
+            <div class="content" id="drink-content">
               Click here to get details on how the make this tantalizing drink.
             </div>
         </div>
       </div>
 
         <div class="column is-one-third">
+          <label class="label">Love this drink or want to see others you've loved?</label>
+                <div class="columns is-mobile">
+                  <div class="column has-text-centered">
+                    <button class="button is-centered is-link is-rounded" id="save-drink">Favorite</button>
+                  </div>
+                  <div class="column has-text-centered">                      
+                    <button class="button is-centered is-link is-rounded modal-on " id="view-fav-drink">View favorites</button>
+                  </div>
+              </div>
+
           <div class="field">
-            <label class="label">Looking for something specific?</label>
+            <label class="label">Looking for specific drink?</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Search">
+                <input class="input" type="text" placeholder="Search by name">
               </div> 
               <div class="control">
                 <button class="button is-link" type="submit">Submit</button>
@@ -82,9 +92,9 @@
           </div>
         
         <div class="field">
-          <label class="label">Want a specific ingrediant?</label>
+          <label class="label">Want a specific alcohol?</label>
           <div class="control">
-            <input class="input" type="email" placeholder="Ingrediant">
+            <input class="input" type="email" placeholder="Search by alcohol">
           </div>
           <div class="control">
             <button class="button is-link" type="submit">Submit</button>
@@ -94,7 +104,23 @@
       </div>
    
      
-   
+        <!-- Modal, should pop up when click on recipe card.-->
+  <div class="modal" id="my-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <!-- Recipe Name -->
+        <p class="modal-card-title" id="modal-title">Modal title</p>
+        <button class="delete modal-off" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body" id="modal-body">
+        <!-- Should include recipe ... -->
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button modal-off" id="modalCancel">Close</button>
+      </footer>
+    </div>
+  </div>
 
 
       
