@@ -509,13 +509,14 @@ function findByCategory(category) {
 
   }).then(function (response) {
 
-      var output = ""
-      if (!response.meals) {
-        output = "no results found"
-      }
+    var output = ""
+    if (!response.meals) {
+      output = "no results found"
     }
+    //}
     document.getElementById("result").innerHTML = output
   })
+}
 $("#food-category").on("click", ".food-cat", function () {
   var category = this.dataset.cat;
   findByCategory(category);
