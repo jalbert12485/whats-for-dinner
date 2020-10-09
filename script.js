@@ -54,7 +54,7 @@ function displayFoodCard() {
   $("#food-thumb").attr("src", currentFood.strMealThumb);
   $("#food-title").text(currentFood.strMeal);
   $("#food-title").attr("data-number", currentFood.idMeal);
-  console.log(isSavedFood());
+
   if (isSavedFood()) {
     $("#food-heart-empty").attr("style", "display: none");
     $("#food-heart-full").attr("style", "display: block");
@@ -103,13 +103,11 @@ $("#save-drink").on("click", saveFavoriteDrink);
 
 // Gets the id of the displayed food, find the entry in the api and saves all the info into the favorites for later use.
 function saveFavoriteFood() {
-  var favoriteID = Number($("#food-title").data("number"));
-  var favoriteName = $("#food-title").text();
   var isSaved = false;
   var index = -1;
 
   for (var i = 0; i < favoriteFoods.length; i++) {
-    if (favoriteFoods[i][0] == favoriteID) {
+    if (favoriteFoods[i][0] == currentFood.idMeal) {
       isSaved = true;
       index = i;
     }
@@ -117,16 +115,12 @@ function saveFavoriteFood() {
   if (isSaved) {
     favoriteFoods.splice(index, 1);
     localStorage.setItem("favoriteFoods", JSON.stringify(favoriteFoods));
-    $("#food-heart-empty").attr("style", "display: block");
-    $("#food-heart-full").attr("style", "display: none");
   }
   if (!(isSaved)) {
-    favoriteFoods.push([favoriteID, favoriteName, currentFood]);
+    favoriteFoods.push([currentFood.idMeal, currentFood.strMeal, currentFood]);
     localStorage.setItem("favoriteFoods", JSON.stringify(favoriteFoods));
-    $("#food-heart-empty").attr("style", "display: none");
-    $("#food-heart-full").attr("style", "display: block");
-
   }
+  displayFoodCard();
 }
 
 function isSavedFood() {
@@ -155,15 +149,12 @@ function isSavedDrink() {
 
 
 function saveFavoriteDrink() {
-  var favoriteID = Number($("#drink-name").data("number"));
-  var favoriteName = $("#drink-name").text();
-  var favoriteDrink = currentDrink;
   var isSaved = false;
   var index = -1;
 
 
   for (var i = 0; i < favoriteDrinks.length; i++) {
-    if (favoriteDrinks[i][0] == favoriteID) {
+    if (favoriteDrinks[i][0] == currentDrink.idDrink) {
       isSaved = true;
       index = i;
     }
@@ -171,16 +162,12 @@ function saveFavoriteDrink() {
   if (isSaved) {
     favoriteDrinks.splice(index, 1);
     localStorage.setItem("favoriteDrinks", JSON.stringify(favoriteDrinks));
-    $("#drink-heart-empty").attr("style", "display: block");
-    $("#drink-heart-full").attr("style", "display: none");
-
   }
   if (!(isSaved)) {
-    favoriteDrinks.push([favoriteID, favoriteName, favoriteDrink]);
+    favoriteDrinks.push([currentDrink.idDrink, currentDrink.strDrink, currentDrink]);
     localStorage.setItem("favoriteDrinks", JSON.stringify(favoriteDrinks));
-    $("#drink-heart-empty").attr("style", "display: none");
-    $("#drink-heart-full").attr("style", "display: block");
   }
+  displayDrinkCard();
 }
 
 
@@ -366,6 +353,8 @@ function displayDrinkRecipe() {
 
   $("#modal-title").append(newDivCol);
 
+
+
   var ingredients = [currentDrink.strIngredient1, currentDrink.strIngredient2, currentDrink.strIngredient3, currentDrink.strIngredient4, currentDrink.strIngredient5, currentDrink.strIngredient6, currentDrink.strIngredient7, currentDrink.strIngredient8, currentDrink.strIngredient9, currentDrink.strIngredient10, currentDrink.strIngredient11, currentDrink.strIngredient12, currentDrink.strIngredient13, currentDrink.strIngredient14, currentDrink.strIngredient15, currentDrink.strIngredient16, currentDrink.strIngredient17, currentDrink.strIngredient18, currentDrink.strIngredient19, currentDrink.strIngredient20];
   var measure = [currentDrink.strMeasure1, currentDrink.strMeasure2, currentDrink.strMeasure3, currentDrink.strMeasure4, currentDrink.strMeasure5, currentDrink.strMeasure6, currentDrink.strMeasure7, currentDrink.strMeasure8, currentDrink.strMeasure9, currentDrink.strMeasure10, currentDrink.strMeasure11, currentDrink.strMeasure12, currentDrink.strMeasure13, currentDrink.strMeasure14, currentDrink.strMeasure15, currentDrink.strMeasure16, currentDrink.strMeasure17, currentDrink.strMeasure18, currentDrink.strMeasure19, currentDrink.strMeasure20];
 
@@ -519,19 +508,14 @@ function findByCategory(category) {
     // }
 
   }).then(function (response) {
-    console.log(response)
-    var output = ""
-    if (!response.meals) {
-      output = "no results found"
-    } else {
-      for (var i = 0; i < response.meals.length; i++) {
-        output += "<p>" + response.meals[i].strMeal + "</p>";
-        output += "<p><img src='" + response.meals[i].strMealThumb + "' width='300'></p>"
+
+      var output = ""
+      if (!response.meals) {
+        output = "no results found"
       }
     }
     document.getElementById("result").innerHTML = output
   })
-}
 $("#food-category").on("click", ".food-cat", function () {
   var category = this.dataset.cat;
   findByCategory(category);
