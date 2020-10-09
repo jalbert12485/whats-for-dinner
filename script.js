@@ -49,6 +49,7 @@ function randomMeal(){
       });    
 }
 
+//Updated the food card to display the current food item and checks to see if it is a favorited item.
 function displayFoodCard(){
   $("#food-img").attr("src",currentFood.strMealThumb); 
   $("#food-thumb").attr("src",currentFood.strMealThumb); 
@@ -64,6 +65,7 @@ function displayFoodCard(){
   }
 }
 
+// Initializes the food card with a random meal.
 randomMeal();
 
 // Gets a random drink and displays on the home and the drink pages.
@@ -81,6 +83,7 @@ function randomDrink(){
       });    
 }
 
+// Updates drink card to show current drink and checks to see if it is a favorited drink.
 function displayDrinkCard(){
   $("#drink-img").attr("src",currentDrink.strDrinkThumb); 
   $("#drink-thumb").attr("src",currentDrink.strDrinkThumb); 
@@ -95,6 +98,7 @@ function displayDrinkCard(){
   }
 }
 
+//Initializes the drink card with a random drink.
 randomDrink();
 
 // Allows the user to save a displayed item to their favorites.
@@ -123,6 +127,7 @@ function saveFavoriteFood() {
   displayFoodCard();
 }
 
+//Used to check if the current food is saved as a favorite.
 function isSavedFood(){
   var favoriteID=currentFood.idMeal;
 
@@ -134,7 +139,7 @@ function isSavedFood(){
   return false;
 }
 
-
+//Check is the current drink is saved as a favorite.
 function isSavedDrink(){
   var favoriteID=currentDrink.idDrink;
 
@@ -147,7 +152,7 @@ function isSavedDrink(){
 }
 
 
-
+//  Determine is the current drink is saved, if so, deltes this from favorites.  If not, this will add the drink to favorites.
 function saveFavoriteDrink() {
   var isSaved=false;
   var index=-1;
@@ -171,7 +176,7 @@ function saveFavoriteDrink() {
 }
 
 
-
+// Listens for the veiw favorite buttons to be clicked then runs corresponding functions.
 $("#view-fav-food").on("click",viewFavoriteFood);
 $("#view-fav-drink").on("click", viewFavoriteDrink);
 
@@ -255,9 +260,10 @@ $("#my-modal").on("click",function (event){
 
 });
 
+// When the food card is clicked, the food recipe is displayed.
 $("#food-card").on("click",".view-recipe",displayFoodRecipe);
 
-    
+// Updates the modal to display the current food recipe.
 function displayFoodRecipe(){
   $("#modal-title").empty();
   $("#modal-body").empty();
@@ -286,11 +292,14 @@ function displayFoodRecipe(){
   
 
   $("#modal-title").append(newDivCol);
-  
-  var ingredients=[currentFood.strIngredient1, currentFood.strIngredient2, currentFood.strIngredient3, currentFood.strIngredient4, currentFood.strIngredient5, currentFood.strIngredient6, currentFood.strIngredient7, currentFood.strIngredient8, currentFood.strIngredient9, currentFood.strIngredient10, currentFood.strIngredient11, currentFood.strIngredient12, currentFood.strIngredient13, currentFood.strIngredient14, currentFood.strIngredient15, currentFood.strIngredient16, currentFood.strIngredient17, currentFood.strIngredient18, currentFood.strIngredient19, currentFood.strIngredient20];
-  var measure=[currentFood.strMeasure1, currentFood.strMeasure2, currentFood.strMeasure3, currentFood.strMeasure4, currentFood.strMeasure5, currentFood.strMeasure6, currentFood.strMeasure7, currentFood.strMeasure8, currentFood.strMeasure9, currentFood.strMeasure10, currentFood.strMeasure11, currentFood.strMeasure12, currentFood.strMeasure13, currentFood.strMeasure14, currentFood.strMeasure15, currentFood.strMeasure16, currentFood.strMeasure17, currentFood.strMeasure18, currentFood.strMeasure19, currentFood.strMeasure20];
 
-
+  var ingredients=[];
+  var measure=[];
+  for(var i=0; i< 20; i++){
+    ingredients.push(currentFood[`strIngredient${i}`]);
+    measure.push(currentFood[`strMeasure${i}`]);
+  }
+ 
   var newUl=$("<ul>");
   newUl.text("Ingrediants");
   newUl.addClass("columns");
@@ -321,9 +330,10 @@ for(var j=0; j < 2; j++){
 
 }
 
+//Listens for the drink card to be clicked and displays the drink recipe.
 $("#drink-card").on("click",".view-recipe",displayDrinkRecipe);
 
-    
+//Display the current drink recipe in a modal.
 function displayDrinkRecipe(){
   $("#modal-title").empty();
   $("#modal-body").empty();
@@ -353,11 +363,12 @@ function displayDrinkRecipe(){
 
   $("#modal-title").append(newDivCol);
   
-
-
-  var ingredients=[currentDrink.strIngredient1, currentDrink.strIngredient2, currentDrink.strIngredient3, currentDrink.strIngredient4, currentDrink.strIngredient5, currentDrink.strIngredient6, currentDrink.strIngredient7, currentDrink.strIngredient8, currentDrink.strIngredient9, currentDrink.strIngredient10, currentDrink.strIngredient11, currentDrink.strIngredient12, currentDrink.strIngredient13, currentDrink.strIngredient14, currentDrink.strIngredient15, currentDrink.strIngredient16, currentDrink.strIngredient17, currentDrink.strIngredient18, currentDrink.strIngredient19, currentDrink.strIngredient20];
-  var measure=[currentDrink.strMeasure1, currentDrink.strMeasure2, currentDrink.strMeasure3, currentDrink.strMeasure4, currentDrink.strMeasure5, currentDrink.strMeasure6, currentDrink.strMeasure7, currentDrink.strMeasure8, currentDrink.strMeasure9, currentDrink.strMeasure10, currentDrink.strMeasure11, currentDrink.strMeasure12, currentDrink.strMeasure13, currentDrink.strMeasure14, currentDrink.strMeasure15, currentDrink.strMeasure16, currentDrink.strMeasure17, currentDrink.strMeasure18, currentDrink.strMeasure19, currentDrink.strMeasure20];
-
+  var ingredients=[];
+  var measure=[];
+  for(var i=0; i< 20; i++){
+    ingredients.push(currentDrink[`strIngredient${i}`]);
+    measure.push(currentDrink[`strMeasure${i}`]);
+  }
 
   var newUl=$("<ul>");
   newUl.text("Ingrediants");
@@ -412,6 +423,7 @@ $("#ingredient-drink-search-submit").on("click",function(e){
   searchByDrinkIng();
 });
 
+// Searches the api for a food with input name and returns a random result.
 function searchByFoodName(){
   var foodName=$("#name-food-search-input").val();
   var queryURL = "https://www.themealdb.com/api/json/v1/1/search.php?s="+foodName;
@@ -428,6 +440,7 @@ function searchByFoodName(){
     }); 
 }
 
+// Searches the api for a food with the input ingredient and returns a random result.
 function searchByFoodIng(){
   var foodIng=$("#ingredient-food-search-input").val();
   var queryURL = "https://www.themealdb.com/api/json/v1/1/filter.php?i="+foodIng;
@@ -444,6 +457,7 @@ function searchByFoodIng(){
     }); 
 }
 
+// Searches the api for a food from the given origin and returns random result.
 function searchByFoodOrigin(){
   var foodOrigin=$("#origin-food-search-input").val();
   var queryURL = "https://www.themealdb.com/api/json/v1/1/filter.php?a="+foodOrigin;
@@ -460,6 +474,8 @@ function searchByFoodOrigin(){
     }); 
 }
 
+
+//Searches the api for a drink with the input name and returns a random result.
 function searchByDrinkName(){
   var drinkName=$("#name-drink-search-input").val();
   var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s="+drinkName;
@@ -476,6 +492,7 @@ function searchByDrinkName(){
     }); 
 }
 
+//Searches the api for a drink with the input ingredient and returns a random result.
 function searchByDrinkIng(){
   var drinkIng=$("#ingredient-drink-search-input").val();
   var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i="+drinkIng;
@@ -492,9 +509,12 @@ function searchByDrinkIng(){
     }); 
 }
 
+// Listens for arrow, then displays a new random drink or meal.
 $("#drink-arrow").on("click",randomDrink);
 $("#food-arrow").on("click",randomMeal);
 
+
+//Searches the api for a clicked category, then returns all results.
 function findByCategory(category){
   // https://developers.zomato.com/api/v2.1/cities?q=chicago
   var queryUrl = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
@@ -525,6 +545,6 @@ function findByCategory(category){
 $("#food-category").on("click",".food-cat", function(){ 
   var category=this.dataset.cat;
  findByCategory(category);
-}
-)
+});
+
       // curl -X GET --header "Accept: application/json" --header "user-key: 751583b89913088b443a8dd9ca80a1dc" "https://developers.zomato.com/api/v2.1/cities?q=chicago" 
