@@ -434,9 +434,13 @@ function searchByFoodName(){
     method: "GET"
   })
     .then(function(response) {
+      if (!response.meals){
+        $("#name-food-search-input").val("No Results");  
+    }else{
       var number=Math.floor(Math.random()*response.meals.length);
       currentFood=response.meals[number];
       displayFoodCard();
+    }
     }); 
 }
 
@@ -451,9 +455,13 @@ function searchByFoodIng(){
     method: "GET"
   })
     .then(function(response) {
+      if (!response.meals){
+        $("#ingredient-food-search-input").val("No Results");  
+    }else{
       var number=Math.floor(Math.random()*response.meals.length);
         currentFood=response.meals[number];
         displayFoodCard();
+    }
     }); 
 }
 
@@ -468,9 +476,13 @@ function searchByFoodOrigin(){
     method: "GET"
   })
     .then(function(response) {
+      if (!response.meals){
+        $("#origin-food-search-input").val("No Results");  
+    }else{
         var number=Math.floor(Math.random()*response.meals.length);
         currentFood=response.meals[number];
         displayFoodCard();
+  }
     }); 
 }
 
@@ -486,9 +498,14 @@ function searchByDrinkName(){
     method: "GET"
   })
     .then(function(response) {
+      if (!response.drinks){
+        $("#name-drink-search-input").val("No Results");
+    }
+    else {
       var number=Math.floor(Math.random()*response.drinks.length);
         currentDrink=response.drinks[number];
         displayDrinkCard();
+    }
     }); 
 }
 
@@ -503,9 +520,14 @@ function searchByDrinkIng(){
     method: "GET"
   })
     .then(function(response) {
+      if (!response.drinks){
+        $("#ingredient-drink-search-input").val("No Results");
+    }
+    else {
       var number=Math.floor(Math.random()*response.drinks.length);
         currentDrink=response.drinks[number];
         displayDrinkCard();
+    }
     }); 
 }
 
@@ -528,18 +550,48 @@ function findByCategory(category){
       // }
 
   }).then(function(response){
+ 
      
-      var output =""
       if (!response.meals){
-          output = "no results found"
+          $("#response").html("<h2> No results found </h2>")
       }
       else {
-          for (var i = 0; i < response.meals.length; i++) {
-              output += "<p>" + response.meals[i].strMeal+ "</p>";
-              output += "<p><img src='"+response.meals[i].    strMealThumb + "' width='300'></p>" 
+        $("#result").empty();
+        var newIntro=$("<h2>");
+        newIntro.text("Category Results Below");
+        var newPara=$("<h2>");
+        newPara.text("Click on picture to see full card.");
+        newPara.addClass("mb-4");
+        $("#result").append(newIntro);
+        $("#result").append(newPara);
+
+      
+        for(var j=0; j< Math.floor((response.meals.length)/4); j++){
+            var newRow=$("<div>");
+            newRow.addClass("columns is-tablet");
+          for (var i = 0; i < 4; i++) {
+            var newCol=$("<div>");
+            newCol.addClass("column border");
+            var newCard=$("<div>");
+            newCard.addClass("card food-click m-1");
+            newCard.attr("data-number",response.meals[4*j+i].idMeal);
+            var newFigure=$("<figure>");
+            newFigure.addClass("image");
+            var newImg=$("<img>");
+            newImg.attr("src",response.meals[4*j+i].strMealThumb);
+
+            newFigure.append(newImg);
+            newCard.append(newFigure);
+          
+            var newTitle=$("<p>");
+            newTitle.text(response.meals[4*j+i].strMeal);
+            newTitle.addClass("title is-5");
+
+            newCard.append(newTitle);
+            newRow.append(newCard);
           }
-      }
-      document.getElementById("result").innerHTML = output
+        $("#result").append(newRow); }
+    }
   })
 }
 $("#food-category").on("click",".food-cat", function(){ 
@@ -547,4 +599,23 @@ $("#food-category").on("click",".food-cat", function(){
  findByCategory(category);
 });
 
+$("#result").on("click",".food-click", function(){
+  $(window).scrollTop(0);
+  var currentFoodId=JSON.parse(this.dataset.number);
+  var queryURL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="+currentFoodId;
+
+
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  })
+    .then(function(response) {
+      currentFood=response.meals[0];
+      displayFoodCard();
+    }); 
+  
+});
+
+
       // curl -X GET --header "Accept: application/json" --header "user-key: 751583b89913088b443a8dd9ca80a1dc" "https://developers.zomato.com/api/v2.1/cities?q=chicago" 
+   
