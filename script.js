@@ -185,10 +185,10 @@ function saveFavoriteDrink() {
 
 
 
-$("#view-fav-food").on("click", viewFavoriteFood);
+$("#view-fav-food").on("click",viewFavoriteFood);
 $("#view-fav-drink").on("click", viewFavoriteDrink);
 
-// $("#view-fav-drink").on("click", viewFavoriteDrink);
+
 //Opens the modal and displayed your saved favorite recipes.
 function viewFavoriteFood(){
   $("#modal-title").text("Favorite Food Recipes");
@@ -268,8 +268,8 @@ $("#my-modal").on("click",function (event){
 
 });
 
-$("#food-img").on("click",displayFoodRecipe);
-$("#food-content").on("click",displayFoodRecipe);
+$("#food-card").on("click",".view-recipe",displayFoodRecipe);
+
     
 function displayFoodRecipe(){
   $("#modal-title").empty();
@@ -334,8 +334,8 @@ for(var j=0; j < 2; j++){
 
 }
 
-$("#drink-img").on("click",displayDrinkRecipe);
-$("#drink-content").on("click",displayDrinkRecipe);
+$("#drink-card").on("click",".view-recipe",displayDrinkRecipe);
+
     
 function displayDrinkRecipe(){
   $("#modal-title").empty();
