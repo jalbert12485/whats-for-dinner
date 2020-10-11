@@ -301,7 +301,7 @@ function displayFoodRecipe(){
   }
  
   var newUl=$("<ul>");
-  newUl.text("Ingrediants");
+  newUl.text("Ingredients");
   newUl.addClass("columns");
 
 for(var j=0; j < 2; j++){
@@ -371,7 +371,7 @@ function displayDrinkRecipe(){
   }
 
   var newUl=$("<ul>");
-  newUl.text("Ingrediants");
+  newUl.text("Ingredients");
   newUl.addClass("columns");
 
 for(var j=0; j < 2; j++){
