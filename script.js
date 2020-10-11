@@ -458,9 +458,20 @@ function searchByFoodIng(){
       if (!response.meals){
         $("#ingredient-food-search-input").val("No Results");  
     }else{
-      var number=Math.floor(Math.random()*response.meals.length);
-        currentFood=response.meals[number];
-        displayFoodCard();
+        var number=Math.floor(Math.random()*response.meals.length);
+        var currentFoodId=response.meals[number].idMeal;
+        var queryURL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="+currentFoodId;
+      
+      
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+          .then(function(response) {
+            currentFood=response.meals[0];
+            displayFoodCard();
+          }); 
+
     }
     }); 
 }
@@ -479,10 +490,22 @@ function searchByFoodOrigin(){
       if (!response.meals){
         $("#origin-food-search-input").val("No Results");  
     }else{
-        var number=Math.floor(Math.random()*response.meals.length);
-        currentFood=response.meals[number];
-        displayFoodCard();
+      var number=Math.floor(Math.random()*response.meals.length);
+      var currentFoodId=response.meals[number].idMeal;
+      var queryURL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="+currentFoodId;
+    
+    
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function(response) {
+          currentFood=response.meals[0];
+          displayFoodCard();
+        }); 
+
   }
+  
     }); 
 }
 
@@ -524,10 +547,23 @@ function searchByDrinkIng(){
         $("#ingredient-drink-search-input").val("No Results");
     }
     else {
-      var number=Math.floor(Math.random()*response.drinks.length);
-        currentDrink=response.drinks[number];
-        displayDrinkCard();
+ 
+        var number=Math.floor(Math.random()*response.drinks.length);
+        var currentDrinkId=response.drinks[number].idDrink;
+        var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i="+currentDrinkId;
+      
+      
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+          .then(function(response) {
+            currentDrink=response.drinks[0];
+            displayDrinkCard();
+          }); 
+
     }
+    
     }); 
 }
 
