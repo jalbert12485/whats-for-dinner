@@ -1,3 +1,4 @@
+// testing merge
 // Variable to enable saving of favorite foods
 var favoriteFoods=JSON.parse(localStorage.getItem("favoriteFoods"));
 if(favoriteFoods===null){
