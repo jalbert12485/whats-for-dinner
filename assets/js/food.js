@@ -32,6 +32,21 @@ function turnOffModal(e){
 $(document).on("click",".modal-on",turnOnModal);
 $(document).on("click",".modal-off",turnOffModal);
 
+<<<<<<< HEAD:assets/js/food.js
+function searchFoodRecipe(){
+    var search="";
+    var queryURL = "https://www.themealdb.com/api/json/v1/1/search.php?s="+search;
+
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    })
+      .then(function(response) {
+          console.log(response);
+      });
+}
+=======
+>>>>>>> main:script.js
 
 
 
