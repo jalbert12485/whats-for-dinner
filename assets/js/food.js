@@ -64,13 +64,23 @@ function randomMeal(){
       });    
 }
 
+//Updated the food card to display the current food item and checks to see if it is a favorited item.
 function displayFoodCard(){
   $("#food-img").attr("src",currentFood.strMealThumb); 
   $("#food-thumb").attr("src",currentFood.strMealThumb); 
   $("#food-title").text(currentFood.strMeal);
   $("#food-title").attr("data-number",currentFood.idMeal);
+ 
+  if(isSavedFood()){
+    $("#food-heart-empty").attr("style","display: none");
+    $("#food-heart-full").attr("style", "display: block");
+  } else {
+    $("#food-heart-empty").attr("style","display: block");
+    $("#food-heart-full").attr("style", "display: none");
+  }
 }
 
+// Initializes the food card with a random meal.
 randomMeal();
 
 // Gets a random drink and displays on the home and the drink pages.
@@ -88,13 +98,22 @@ function randomDrink(){
       });    
 }
 
+// Updates drink card to show current drink and checks to see if it is a favorited drink.
 function displayDrinkCard(){
   $("#drink-img").attr("src",currentDrink.strDrinkThumb); 
   $("#drink-thumb").attr("src",currentDrink.strDrinkThumb); 
   $("#drink-name").text(currentDrink.strDrink);
   $("#drink-name").attr("data-number",currentDrink.idDrink);
+  if(isSavedDrink()){
+    $("#drink-heart-empty").attr("style","display: none");
+    $("#drink-heart-full").attr("style", "display: block");
+  }else{
+    $("#drink-heart-empty").attr("style","display: block");
+    $("#drink-heart-full").attr("style", "display: none");
+  }
 }
 
+//Initializes the drink card with a random drink.
 randomDrink();
 
 // Allows the user to save a displayed item to their favorites.
@@ -103,45 +122,80 @@ $("#save-drink").on("click",saveFavoriteDrink);
 
 // Gets the id of the displayed food, find the entry in the api and saves all the info into the favorites for later use.
 function saveFavoriteFood() {
-  var favoriteID=Number($("#food-title").data("number"));
-  var favoriteName=$("#food-title").text();
-  var favoriteFood=currentFood;
   var isSaved=false;
+  var index=-1;
+
+  for(var i=0; i<favoriteFoods.length; i++){
+    if(favoriteFoods[i][0]==currentFood.idMeal){
+      isSaved=true;
+      index=i;
+    }
+  }
+  if(isSaved){
+    favoriteFoods.splice(index,1);
+    localStorage.setItem("favoriteFoods",JSON.stringify(favoriteFoods));
+  }
+  if(!(isSaved)){
+  favoriteFoods.push([currentFood.idMeal,currentFood.strMeal,currentFood]);
+  localStorage.setItem("favoriteFoods",JSON.stringify(favoriteFoods));
+  } 
+  displayFoodCard();
+}
+
+//Used to check if the current food is saved as a favorite.
+function isSavedFood(){
+  var favoriteID=currentFood.idMeal;
+
   for(var i=0; i<favoriteFoods.length; i++){
     if(favoriteFoods[i][0]==favoriteID){
-      isSaved=true;
+      return true;
     }
   }
-
-  if(!(isSaved)){
-  favoriteFoods.push([favoriteID,favoriteName,currentFood]);
-  localStorage.setItem("favoriteFoods",JSON.stringify(favoriteFoods));
-  }
+  return false;
 }
 
-function saveFavoriteDrink() {
-  var favoriteID=Number($("#drink-name").data("number"));
-  var favoriteName=$("#drink-name").text();
-  var favoriteDrink=currentDrink;
-  var isSaved=false;
+//Check is the current drink is saved as a favorite.
+function isSavedDrink(){
+  var favoriteID=currentDrink.idDrink;
+
   for(var i=0; i<favoriteDrinks.length; i++){
     if(favoriteDrinks[i][0]==favoriteID){
-      isSaved=true;
+      return true;
     }
   }
-
-  if(!(isSaved)){
-  favoriteDrinks.push([favoriteID,favoriteName,favoriteDrink]);
-  localStorage.setItem("favoriteDrinks",JSON.stringify(favoriteDrinks));
-  }
+  return false;
 }
 
 
+//  Determine is the current drink is saved, if so, deltes this from favorites.  If not, this will add the drink to favorites.
+function saveFavoriteDrink() {
+  var isSaved=false;
+  var index=-1;
 
-$("#view-fav-food").on("click", viewFavoriteFood);
+  
+  for(var i=0; i<favoriteDrinks.length; i++){
+    if(favoriteDrinks[i][0]==currentDrink.idDrink){
+      isSaved=true;
+      index=i;
+    }
+  }
+  if(isSaved){
+    favoriteDrinks.splice(index,1);
+    localStorage.setItem("favoriteDrinks",JSON.stringify(favoriteDrinks));
+  }
+  if(!(isSaved)){
+  favoriteDrinks.push([currentDrink.idDrink,currentDrink.strDrink,currentDrink]);
+  localStorage.setItem("favoriteDrinks",JSON.stringify(favoriteDrinks));
+  }
+  displayDrinkCard();
+}
+
+
+// Listens for the veiw favorite buttons to be clicked then runs corresponding functions.
+$("#view-fav-food").on("click",viewFavoriteFood);
 $("#view-fav-drink").on("click", viewFavoriteDrink);
 
-// $("#view-fav-drink").on("click", viewFavoriteDrink);
+
 //Opens the modal and displayed your saved favorite recipes.
 function viewFavoriteFood(){
   $("#modal-title").text("Favorite Food Recipes");
@@ -221,9 +275,10 @@ $("#my-modal").on("click",function (event){
 
 });
 
-$("#food-img").on("click",displayFoodRecipe);
-$("#food-content").on("click",displayFoodRecipe);
-    
+// When the food card is clicked, the food recipe is displayed.
+$("#food-card").on("click",".view-recipe",displayFoodRecipe);
+
+// Updates the modal to display the current food recipe.
 function displayFoodRecipe(){
   $("#modal-title").empty();
   $("#modal-body").empty();
@@ -252,13 +307,16 @@ function displayFoodRecipe(){
   
 
   $("#modal-title").append(newDivCol);
-  
-  var ingredients=[currentFood.strIngredient1, currentFood.strIngredient2, currentFood.strIngredient3, currentFood.strIngredient4, currentFood.strIngredient5, currentFood.strIngredient6, currentFood.strIngredient7, currentFood.strIngredient8, currentFood.strIngredient9, currentFood.strIngredient10, currentFood.strIngredient11, currentFood.strIngredient12, currentFood.strIngredient13, currentFood.strIngredient14, currentFood.strIngredient15, currentFood.strIngredient16, currentFood.strIngredient17, currentFood.strIngredient18, currentFood.strIngredient19, currentFood.strIngredient20];
-  var measure=[currentFood.strMeasure1, currentFood.strMeasure2, currentFood.strMeasure3, currentFood.strMeasure4, currentFood.strMeasure5, currentFood.strMeasure6, currentFood.strMeasure7, currentFood.strMeasure8, currentFood.strMeasure9, currentFood.strMeasure10, currentFood.strMeasure11, currentFood.strMeasure12, currentFood.strMeasure13, currentFood.strMeasure14, currentFood.strMeasure15, currentFood.strMeasure16, currentFood.strMeasure17, currentFood.strMeasure18, currentFood.strMeasure19, currentFood.strMeasure20];
 
-
+  var ingredients=[];
+  var measure=[];
+  for(var i=0; i< 20; i++){
+    ingredients.push(currentFood[`strIngredient${i}`]);
+    measure.push(currentFood[`strMeasure${i}`]);
+  }
+ 
   var newUl=$("<ul>");
-  newUl.text("Ingrediants");
+  newUl.text("Ingredients");
   newUl.addClass("columns");
 
 for(var j=0; j < 2; j++){
@@ -287,9 +345,10 @@ for(var j=0; j < 2; j++){
 
 }
 
-$("#drink-img").on("click",displayDrinkRecipe);
-$("#drink-content").on("click",displayDrinkRecipe);
-    
+//Listens for the drink card to be clicked and displays the drink recipe.
+$("#drink-card").on("click",".view-recipe",displayDrinkRecipe);
+
+//Display the current drink recipe in a modal.
 function displayDrinkRecipe(){
   $("#modal-title").empty();
   $("#modal-body").empty();
@@ -319,12 +378,15 @@ function displayDrinkRecipe(){
 
   $("#modal-title").append(newDivCol);
   
-  var ingredients=[currentDrink.strIngredient1, currentDrink.strIngredient2, currentDrink.strIngredient3, currentDrink.strIngredient4, currentDrink.strIngredient5, currentDrink.strIngredient6, currentDrink.strIngredient7, currentDrink.strIngredient8, currentDrink.strIngredient9, currentDrink.strIngredient10, currentDrink.strIngredient11, currentDrink.strIngredient12, currentDrink.strIngredient13, currentDrink.strIngredient14, currentDrink.strIngredient15, currentDrink.strIngredient16, currentDrink.strIngredient17, currentDrink.strIngredient18, currentDrink.strIngredient19, currentDrink.strIngredient20];
-  var measure=[currentDrink.strMeasure1, currentDrink.strMeasure2, currentDrink.strMeasure3, currentDrink.strMeasure4, currentDrink.strMeasure5, currentDrink.strMeasure6, currentDrink.strMeasure7, currentDrink.strMeasure8, currentDrink.strMeasure9, currentDrink.strMeasure10, currentDrink.strMeasure11, currentDrink.strMeasure12, currentDrink.strMeasure13, currentDrink.strMeasure14, currentDrink.strMeasure15, currentDrink.strMeasure16, currentDrink.strMeasure17, currentDrink.strMeasure18, currentDrink.strMeasure19, currentDrink.strMeasure20];
-
+  var ingredients=[];
+  var measure=[];
+  for(var i=0; i< 20; i++){
+    ingredients.push(currentDrink[`strIngredient${i}`]);
+    measure.push(currentDrink[`strMeasure${i}`]);
+  }
 
   var newUl=$("<ul>");
-  newUl.text("Ingrediants");
+  newUl.text("Ingredients");
   newUl.addClass("columns");
 
 for(var j=0; j < 2; j++){
@@ -376,6 +438,7 @@ $("#ingredient-drink-search-submit").on("click",function(e){
   searchByDrinkIng();
 });
 
+// Searches the api for a food with input name and returns a random result.
 function searchByFoodName(){
   var foodName=$("#name-food-search-input").val();
   var queryURL = "https://www.themealdb.com/api/json/v1/1/search.php?s="+foodName;
@@ -386,12 +449,17 @@ function searchByFoodName(){
     method: "GET"
   })
     .then(function(response) {
+      if (!response.meals){
+        $("#name-food-search-input").val("No Results");  
+    }else{
       var number=Math.floor(Math.random()*response.meals.length);
       currentFood=response.meals[number];
       displayFoodCard();
+    }
     }); 
 }
 
+// Searches the api for a food with the input ingredient and returns a random result.
 function searchByFoodIng(){
   var foodIng=$("#ingredient-food-search-input").val();
   var queryURL = "https://www.themealdb.com/api/json/v1/1/filter.php?i="+foodIng;
@@ -402,12 +470,28 @@ function searchByFoodIng(){
     method: "GET"
   })
     .then(function(response) {
-      var number=Math.floor(Math.random()*response.meals.length);
-        currentFood=response.meals[number];
-        displayFoodCard();
+      if (!response.meals){
+        $("#ingredient-food-search-input").val("No Results");  
+    }else{
+        var number=Math.floor(Math.random()*response.meals.length);
+        var currentFoodId=response.meals[number].idMeal;
+        var queryURL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="+currentFoodId;
+      
+      
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+          .then(function(response) {
+            currentFood=response.meals[0];
+            displayFoodCard();
+          }); 
+
+    }
     }); 
 }
 
+// Searches the api for a food from the given origin and returns random result.
 function searchByFoodOrigin(){
   var foodOrigin=$("#origin-food-search-input").val();
   var queryURL = "https://www.themealdb.com/api/json/v1/1/filter.php?a="+foodOrigin;
@@ -418,12 +502,30 @@ function searchByFoodOrigin(){
     method: "GET"
   })
     .then(function(response) {
-        var number=Math.floor(Math.random()*response.meals.length);
-        currentFood=response.meals[number];
-        displayFoodCard();
+      if (!response.meals){
+        $("#origin-food-search-input").val("No Results");  
+    }else{
+      var number=Math.floor(Math.random()*response.meals.length);
+      var currentFoodId=response.meals[number].idMeal;
+      var queryURL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="+currentFoodId;
+    
+    
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function(response) {
+          currentFood=response.meals[0];
+          displayFoodCard();
+        }); 
+
+  }
+  
     }); 
 }
 
+
+//Searches the api for a drink with the input name and returns a random result.
 function searchByDrinkName(){
   var drinkName=$("#name-drink-search-input").val();
   var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s="+drinkName;
@@ -434,12 +536,18 @@ function searchByDrinkName(){
     method: "GET"
   })
     .then(function(response) {
+      if (!response.drinks){
+        $("#name-drink-search-input").val("No Results");
+    }
+    else {
       var number=Math.floor(Math.random()*response.drinks.length);
         currentDrink=response.drinks[number];
         displayDrinkCard();
+    }
     }); 
 }
 
+//Searches the api for a drink with the input ingredient and returns a random result.
 function searchByDrinkIng(){
   var drinkIng=$("#ingredient-drink-search-input").val();
   var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i="+drinkIng;
@@ -450,8 +558,115 @@ function searchByDrinkIng(){
     method: "GET"
   })
     .then(function(response) {
-      var number=Math.floor(Math.random()*response.drinks.length);
-        currentDrink=response.drinks[number];
-        displayDrinkCard();
+      if (!response.drinks){
+        $("#ingredient-drink-search-input").val("No Results");
+    }
+    else {
+ 
+        var number=Math.floor(Math.random()*response.drinks.length);
+        var currentDrinkId=response.drinks[number].idDrink;
+        var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i="+currentDrinkId;
+      
+      
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+          .then(function(response) {
+            currentDrink=response.drinks[0];
+            displayDrinkCard();
+          }); 
+
+    }
+    
     }); 
 }
+
+// Listens for arrow, then displays a new random drink or meal.
+$("#drink-arrow").on("click",randomDrink);
+$("#food-arrow").on("click",randomMeal);
+
+
+//Searches the api for a clicked category, then returns all results.
+function findByCategory(category){
+  // https://developers.zomato.com/api/v2.1/cities?q=chicago
+  var queryUrl = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
+  $.ajax({
+      url: queryUrl,
+      method: "GET", 
+      accept: "application/json"
+      // headers: {
+      //     "user-key":"751583b89913088b443a8dd9ca80a1dc",
+      //     "Content-Type":"application/x-www-form-urlencoded"
+      // }
+
+  }).then(function(response){
+ 
+     
+      if (!response.meals){
+          $("#response").html("<h2> No results found </h2>")
+      }
+      else {
+        $("#result").empty();
+        var newIntro=$("<h2>");
+        newIntro.text("Category Results Below");
+        var newPara=$("<h2>");
+        newPara.text("Click on picture to see full card.");
+        newPara.addClass("mb-4");
+        $("#result").append(newIntro);
+        $("#result").append(newPara);
+
+      
+        for(var j=0; j< Math.floor((response.meals.length)/4); j++){
+            var newRow=$("<div>");
+            newRow.addClass("columns is-tablet");
+          for (var i = 0; i < 4; i++) {
+            var newCol=$("<div>");
+            newCol.addClass("column border");
+            var newCard=$("<div>");
+            newCard.addClass("card food-click m-1");
+            newCard.attr("data-number",response.meals[4*j+i].idMeal);
+            var newFigure=$("<figure>");
+            newFigure.addClass("image");
+            var newImg=$("<img>");
+            newImg.attr("src",response.meals[4*j+i].strMealThumb);
+
+            newFigure.append(newImg);
+            newCard.append(newFigure);
+          
+            var newTitle=$("<p>");
+            newTitle.text(response.meals[4*j+i].strMeal);
+            newTitle.addClass("title is-5");
+
+            newCard.append(newTitle);
+            newRow.append(newCard);
+          }
+        $("#result").append(newRow); }
+    }
+  })
+}
+$("#food-category").on("click",".food-cat", function(){ 
+  var category=this.dataset.cat;
+ findByCategory(category);
+});
+
+$("#result").on("click",".food-click", function(){
+  $(window).scrollTop(0);
+  var currentFoodId=JSON.parse(this.dataset.number);
+  var queryURL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="+currentFoodId;
+
+
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  })
+    .then(function(response) {
+      currentFood=response.meals[0];
+      displayFoodCard();
+    }); 
+  
+});
+
+
+      // curl -X GET --header "Accept: application/json" --header "user-key: 751583b89913088b443a8dd9ca80a1dc" "https://developers.zomato.com/api/v2.1/cities?q=chicago" 
+   
