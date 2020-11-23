@@ -1,6 +1,6 @@
 # What's for dinner?
 
-This project is completed as part of a requirement for a coding boot camp.  The deployed webpage is available [here](file:///C:/Users/jalbe/Desktop/classActivities/project-1/index.html).
+This project is completed as part of a requirement for a coding boot camp.  The deployed webpage is available [here](https://jalbert12485.github.io/whats-for-dinner/).
 
 In this project, we will create a website meant to provide food and drink recommendations.  If the user is indecisive about what they want, this will provide them with an answer as to what they should have.  Furthermore, the recipe for making the suggested item will also be given to the user.  Note that the food and drink recommendations don't come as pairings, but rather as different options for the user to have.
 
